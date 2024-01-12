@@ -1,8 +1,8 @@
-import express from 'express';
-import ejs from 'ejs';
-import session from 'express-session';
-import { connectDatabase } from './config/db.js';
-import { userRoutes } from './routes/user.routes.js';
+const express = require('express');
+const ejs = require('ejs');
+const session = require('express-session');
+const { connectDatabase } = require('./config/db.js');
+const { userRoutes } = require('./routes/user.routes.js');
 
 const app = express();
 const pool = connectDatabase();

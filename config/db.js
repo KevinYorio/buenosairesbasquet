@@ -1,4 +1,4 @@
-import mysql from 'mysql2';
+const mysql = require('mysql2');
 
 const connectDatabase = () => {
   const pool = mysql.createPool({
@@ -33,4 +33,4 @@ const connectDatabase = () => {
   return pool;
 }
 
-export { connectDatabase };
+module.exports = { connectDatabase };
