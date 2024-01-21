@@ -1,3 +1,4 @@
+-- Active: 1705079014325@@127.0.0.1@3306/buenosairesbasquet
 USE buenosairesbasquet
 
 CREATE TABLE Cliente (

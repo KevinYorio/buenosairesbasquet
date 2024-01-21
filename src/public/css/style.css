@@ -362,9 +362,72 @@ a:focus {
 /* ALUMNO */
 
 .alumno-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+  background-color: #000; /* Fondo negro para el container del alumno */
+  color: #fff; /* Texto blanco dentro del container del alumno */
+  padding: 20px; /* Espaciado interno para el container del alumno */
+  border-radius: 10px; /* Bordes redondeados para el container del alumno */
+  margin: 100px auto 0; /* Centrar el container del alumno en la página */
+  width: 50%; /* Ancho del container del alumno */
+  box-sizing: border-box; /* Evitar que el padding afecte el ancho total */
+}
+
+.alumno-container {
+  background-color: #000; /* Fondo negro para el container del alumno */
+  color: #fff; /* Texto blanco dentro del container del alumno */
+  padding: 20px; /* Espaciado interno para el container del alumno */
+  border-radius: 10px; /* Bordes redondeados para el container del alumno */
+  margin: 100px auto 0; /* Centrar el container del alumno en la página y agregar más margen superior */
+  width: 50%; /* Ancho del container del alumno */
+  box-sizing: border-box; /* Evitar que el padding afecte el ancho total */
+}
+
+.alumno-container h2 {
+  text-align: center; /* Centrar el texto dentro de h2 */
+}
+
+.alumno-container label {
+  display: block;
+  margin-top: 10px;
+}
+
+.alumno-container input[type="file"] {
+  margin-top: 5px;
+  display: none; /* Ocultar el input de tipo archivo por defecto */
+}
+
+.alumno-container .custom-file-upload {
+  background-color: #FF7F00;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 50%;
+  box-sizing: border-box;
+  display: block;
+  margin: 10px auto 0;
+  text-align: center;
+}
+
+.alumno-container .custom-file-upload:hover {
+  background-color: #854301;
+}
+
+.alumno-container button {
+  background-color: #FF7F00;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 50%;
+  box-sizing: border-box;
+  display: block;
+  margin: 20px auto 0;
+}
+
+.alumno-container button:hover {
+  background-color: #854301;
 }
 
 /* slider section */

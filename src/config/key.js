@@ -4,6 +4,5 @@ module.exports = {
         user: 'kevin',
         password: 'Velez1992',
         database: 'buenosairesbasquet',
-        port: 3306,
     }
 }

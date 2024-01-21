@@ -42,14 +42,6 @@ const registerUser = async () => {
       confirmPassword,
     };
 
-    const response = await fetch('/user/registro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
     if (!response.ok) {
       throw new Error('Error al enviar el formulario al servidor.');
     }
@@ -60,7 +52,7 @@ const registerUser = async () => {
     if (responseData.success) {
       // Éxito, redirigir a la página de inicio de sesión
       alert('Usuario registrado exitosamente.');
-      window.location.href = '/login';
+      window.location.href = '../../views/login.html';
     } else {
       // Error, mostrar mensaje al usuario
       alert(responseData.message || 'Ocurrió un error al guardar los datos en la base de datos.');

@@ -99,21 +99,27 @@
 
     <div>
       <label for="nombreCompleto">Nombre completo:</label>
-      <p id="nombreCompleto">Nombre Apellido</p>
+      <p id="nombreCompleto"></p>
     </div>
 
     <div>
       <label for="edad">Edad:</label>
-      <p id="edad">18</p>
+      <p id="edad"></p>
     </div>
 
     <!-- Otros campos y elementos según tus necesidades -->
 
     <div>
       <label for="foto">Foto:</label>
-      <input type="file" id="foto" accept="image/*">
-      <button onclick="cargarFoto()">Cargar Foto</button>
+      <label class="custom-file-upload">
+        <span id="seleccionarArchivoButton">Seleccionar Archivo</span>
+        <input type="file" id="foto" accept="image/*" style="display: none;" onchange="mostrarCargarFotoButton()">
+      </label>
+      <button id="cargarFotoButton" onclick="cargarFoto()" style="display: none;">Cargar Foto</button>
     </div>
+    
+    
+    
 
     <div>
       <label for="certificadoSalud">Certificado de Salud:</label>
