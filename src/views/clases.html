@@ -25,7 +25,6 @@
   <link href="../public/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../public/css/responsive.css" rel="stylesheet" />
-  <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js" data-preference-id="PREFERENCE_ID"></script>
 </head>
 
 <body>
@@ -115,7 +114,89 @@
     <h2>Clases Seleccionadas</h2>
     <p id="precio-dia">Precio: $0.00</p>
     <ul id="class-list"></ul>
-    <button class="registro-button" id="reserve-button" disabled>Reservar</button>
+
+    <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848d378163018d389f96080115" name="MP-payButton" data-plan="1" class='blue-ar-l-rn-none'>Suscribirme 1 vez por semana</a>
+    <script type="text/javascript">
+       (function() {
+          function $MPC_load() {
+             window.$MPC_loaded !== true && (function() {
+             var s = document.createElement("script");
+             s.type = "text/javascript";
+             s.async = true;
+             s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+             var x = document.getElementsByTagName('script')[0];
+             x.parentNode.insertBefore(s, x);
+             window.$MPC_loaded = true;
+          })();
+       }
+       window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+       })();
+      /*
+            // to receive event with message when closing modal from congrants back to site
+            function $MPC_message(event) {
+              // onclose modal ->CALLBACK FUNCTION
+             // !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
+            }
+            window.$MPC_loaded !== true ? (window.addEventListener("message", $MPC_message)) : null; 
+            */
+    </script>  
+
+<a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848d378147018d42a290cf075f" name="MP-payButton" data-plan="2" class='blue-ar-l-rn-none'>Suscribirme 2 veces por semana</a>
+<script type="text/javascript">
+   (function() {
+      function $MPC_load() {
+         window.$MPC_loaded !== true && (function() {
+         var s = document.createElement("script");
+         s.type = "text/javascript";
+         s.async = true;
+         s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+         var x = document.getElementsByTagName('script')[0];
+         x.parentNode.insertBefore(s, x);
+         window.$MPC_loaded = true;
+      })();
+   }
+   window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+   })();
+  /*
+        // to receive event with message when closing modal from congrants back to site
+        function $MPC_message(event) {
+          // onclose modal ->CALLBACK FUNCTION
+         // !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
+        }
+        window.$MPC_loaded !== true ? (window.addEventListener("message", $MPC_message)) : null; 
+        */
+</script>
+
+
+<a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848d378163018d42b824c80775" name="MP-payButton" data-plan="3" class='blue-ar-l-rn-none'>Suscribirme 3 veces por semana</a>
+<script type="text/javascript">
+   (function() {
+      function $MPC_load() {
+         window.$MPC_loaded !== true && (function() {
+         var s = document.createElement("script");
+         s.type = "text/javascript";
+         s.async = true;
+         s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+         var x = document.getElementsByTagName('script')[0];
+         x.parentNode.insertBefore(s, x);
+         window.$MPC_loaded = true;
+      })();
+   }
+   window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+   })();
+  /*
+        // to receive event with message when closing modal from congrants back to site
+        function $MPC_message(event) {
+          // onclose modal ->CALLBACK FUNCTION
+         // !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
+        }
+        window.$MPC_loaded !== true ? (window.addEventListener("message", $MPC_message)) : null; 
+        */
+</script>
+
+
+
+
     <button class="registro-button" id="clear-all-button">Borrar Todas</button>
   </div>
 </div>
@@ -124,16 +205,21 @@
     <script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/es.js"></script>
     <script  type="text/javascript" src="../public/js/calendar.js"></script>
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function () {
-        let calendar = new Calendar('calendar');
-        calendar.getElement().addEventListener('change', e => {
-          console.log(calendar.value().format('LLL'));
-        });
-    
-        document.getElementById('clear-all-button').addEventListener('click', () => {
-          calendar.borrarTodasLasClases();
-        });
-      });
+document.addEventListener('DOMContentLoaded', function () {
+  let calendar = new Calendar('calendar');
+  calendar.getElement().addEventListener('change', e => {
+    console.log(calendar.value().format('LLL'));
+  });
+
+  // Agrega un console.log para verificar que el botón se esté seleccionando correctamente
+  console.log(document.getElementById('clear-all-button'));
+
+  document.getElementById('clear-all-button').addEventListener('click', () => {
+    console.log('Botón "Borrar Todas" clickeado'); // Agrega esto para verificar que el evento se está registrando
+    calendar.borrarTodasLasClases();
+  });
+});
+
     </script>
 <script type="text/javascript">
 </script>

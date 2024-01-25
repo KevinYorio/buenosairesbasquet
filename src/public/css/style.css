@@ -430,6 +430,11 @@ a:focus {
   background-color: #854301;
 }
 
+a[name="MP-payButton"] {
+  display: none;
+}
+
+
 /* slider section */
 .slider_section {
   height: calc(100% - 80px);

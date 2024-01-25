@@ -5,6 +5,7 @@ const session = require('express-session');
 const { connectDatabase } = require('./config/db.js');
 const userRoutes = require('./routes/user.routes.js');
 const authController = require('./controllers/auth.controller'); // Importa el controlador de autenticación
+const { MercadoPagoConfig, Payment } = require('mercadopago');
 
 const app = express();
 pool;

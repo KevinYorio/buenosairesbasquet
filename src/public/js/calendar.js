@@ -8,7 +8,6 @@ class Calendar {
         this.elGridBody = this.elCalendar.querySelector('.grid__body');
         this.elMonthName = this.elCalendar.querySelector('.month-name');
         this.showCells();
-        this.preciosPorDia = this.generarPreciosAleatorios();
         this.totalPrecio = 0;
       }
 
@@ -178,6 +177,7 @@ class Calendar {
         return cells;
     }
     
+
     addEventListenerToCells() {
         let elCells = this.elCalendar.querySelectorAll('.grid__cell--gd');
         elCells.forEach(elCell => {
@@ -209,128 +209,166 @@ class Calendar {
             });
         });
     }
-
+    calcularPrecio() {
+        const diasSeleccionados = this.elCalendar.querySelectorAll('.grid__cell--selected').length;
     
-generarPreciosAleatorios() {
-    // Generar precios aleatorios para cada día del mes actual
-    let precios = {};
-    const diasEnMes = this.currentMonth.daysInMonth();
-
-    for (let i = 1; i <= diasEnMes; i++) {
-        precios[i] = Math.floor(Math.random() * 100) + 1; // Precio aleatorio entre 1 y 100
+        // Definir los precios según la cantidad de días seleccionados
+        const precios = {
+            1: 4000,
+            2: 8000,
+            3: 12000,
+            4: 10000,
+            5: 14000,
+            6: 18000,
+            7: 22000,
+            8: 20000,
+            9: 24000,
+            10: 28000,
+            11: 32000,
+            12: 27700,
+            13: 31700,
+            14: 35700,
+            15: 39700,
+            16: 34500,
+            17: 39000
+            // Agrega más valores según sea necesario
+        };
+    
+        // Obtener el precio según la cantidad de días seleccionados
+        const precio = diasSeleccionados <= 16 ? precios[diasSeleccionados] : precios[17]; // Usar el precio por defecto si la cantidad es mayor a 16
+    
+        return precio;
     }
 
-    return precios;
-}
-
-calcularPrecio(selectedDate) {
-    const diaSeleccionado = selectedDate.date();
+    actualizarTotalPrecio() {
+        const precioLimite1 = 10000;
+        const precioLimite2 = 18000;
+        const precioLimite3 = 27700;
     
-    // Obtener el precio asociado al día seleccionado
-    const precio = this.preciosPorDia[diaSeleccionado] || 0;
-
-    return precio;
-}
-
+        // Obtener los botones de suscripción
+        const suscripcionButton1 = document.querySelector('a[name="MP-payButton"][data-plan="1"]');
+        const suscripcionButton2 = document.querySelector('a[name="MP-payButton"][data-plan="2"]');
+        const suscripcionButton3 = document.querySelector('a[name="MP-payButton"][data-plan="3"]');
     
-addToClassList() {
-    // Obtener la lista de clases y el botón de reserva
-    let classList = document.getElementById('class-list');
-    let reserveButton = document.getElementById('reserve-button');
-
-    // Obtener el precio asociado al día seleccionado
-    const precio = this.calcularPrecio(this.selectedDateTime);
-
-    // Asegurar que selectedTime esté definido
-    const selectedTime = document.getElementById('horario').value || '';
-
-    // Agregar el nuevo elemento de lista con la fecha, horario y precio seleccionados
-    let listItem = document.createElement('li');
-    listItem.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
-
-    // Crear el botón de borrado para esta fecha
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Borrar';
-    deleteButton.addEventListener('click', () => {
-        this.borrarClase(listItem);
-    });
-
-    // Agregar el botón de borrado al elemento de lista
-    listItem.appendChild(deleteButton);
-
-    // Agregar el nuevo elemento a la lista
-    classList.appendChild(listItem);
-
-    // Habilitar el botón de reserva
-    reserveButton.removeAttribute('disabled');
-
-            // Agregar el precio al total
-            this.totalPrecio += this.calcularPrecio(this.selectedDateTime);
-
-            // Actualizar el elemento HTML con el total de precios
-            this.actualizarTotalPrecio();
-}
-
-
-borrarClase(item) {
-    // Obtener la lista de clases y el botón de reserva
-    let classList = document.getElementById('class-list');
-    let reserveButton = document.getElementById('reserve-button');
-
-    // Quitar el elemento de lista específico
-    classList.removeChild(item);
-
-    // Si la lista está vacía, deshabilitar el botón de reserva
-    if (classList.children.length === 0) {
-        reserveButton.setAttribute('disabled', 'disabled');
-
-                // Restar el precio del total
-                this.totalPrecio -= precioClase; // Ajusta esto según tu implementación
-
-                // Actualizar el elemento HTML con el total de precios
-                this.actualizarTotalPrecio();
+        // Obtener el elemento donde se muestra el precio total
+        const precioTotalElement = document.getElementById('precio-dia');
+    
+        if (this.totalPrecio >= precioLimite3) {
+            // Mostrar solo el tercer botón de suscripción
+            suscripcionButton1.style.display = 'none';
+            suscripcionButton2.style.display = 'none';
+            suscripcionButton3.style.display = 'inline';
+        } else if (this.totalPrecio >= precioLimite2) {
+            // Mostrar solo el segundo botón de suscripción
+            suscripcionButton1.style.display = 'none';
+            suscripcionButton2.style.display = 'inline';
+            suscripcionButton3.style.display = 'none';
+        } else if (this.totalPrecio >= precioLimite1) {
+            // Mostrar solo el primer botón de suscripción
+            suscripcionButton1.style.display = 'inline';
+            suscripcionButton2.style.display = 'none';
+            suscripcionButton3.style.display = 'none';
+        } else {
+            // Ocultar todos los botones de suscripción
+            suscripcionButton1.style.display = 'none';
+            suscripcionButton2.style.display = 'none';
+            suscripcionButton3.style.display = 'none';
+        }
+    
+        // Actualizar el elemento con el precio total, asegurándose de que sea al menos 0
+        precioTotalElement.textContent = `Precio: $${Math.max(0, this.totalPrecio).toFixed(2)}`;
     }
-}
+    
+    
+    
+    
 
-
+    addToClassList() {
+        // Obtener la lista de clases y el botón de reserva
+        let classList = document.getElementById('class-list');
+        
+        // Obtener el precio asociado al día seleccionado
+        const precio = this.calcularPrecio();
+        
+        // Asegurar que selectedTime esté definido
+        const selectedTime = document.getElementById('horario').value || '';
+        
+        // Agregar el nuevo elemento de lista con la fecha, horario y precio seleccionados
+        let listItem = document.createElement('li');
+        listItem.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
+        
+        // Crear el botón de borrado para esta fecha
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Borrar';
+        deleteButton.addEventListener('click', () => {
+            this.borrarClase(listItem, precio);
+        });
+        
+        // Agregar el botón de borrado al elemento de lista
+        listItem.appendChild(deleteButton);
+        
+        // Agregar el nuevo elemento a la lista
+        classList.appendChild(listItem);
+    
+        // Agregar el precio al total
+        this.totalPrecio += precio;
+        
+        // Actualizar el elemento HTML con el total de precios
+        this.actualizarTotalPrecio();
+    }
+    
+    
+    borrarClase(item, precio) {
+        // Obtener la lista de clases y el botón de reserva
+        let classList = document.getElementById('class-list');
+        let reserveButton = document.getElementById('reserve-button');
+    
+        // Quitar el elemento de lista específico
+        classList.removeChild(item);
+    
+        // Si la lista está vacía, deshabilitar el botón de reserva
+        if (classList.children.length === 0) {
+            reserveButton.setAttribute('disabled', 'disabled');
+        }
+    
+        // Restar el precio del total
+        this.totalPrecio -= precio;
+    
+        // Actualizar el elemento HTML con el total de precios
+        this.actualizarTotalPrecio();
+    }
+    
     addEventListenerToClearAllButton() {
         let clearAllButton = this.elCalendar.querySelector('#clear-all-button');
         if (clearAllButton) {
             clearAllButton.addEventListener('click', () => {
-                this.borrarTodasLasClases();
+                this.borrarTodasLasClases(); // Cambié el nombre de la función para que coincida con la definición en el HTML
             });
         }
     }
     
+
     borrarTodasLasClases() {
         let classList = document.getElementById('class-list');
         let reserveButton = document.getElementById('reserve-button');
-    
+
         if (classList) {
             classList.innerHTML = '';
         }
-    
+
         if (reserveButton) {
             reserveButton.setAttribute('disabled', 'disabled');
         }
 
-                // Reiniciar el total de precios
-                this.totalPrecio = 0;
+        // Reiniciar el total de precios
+        this.totalPrecio = 0;
 
-                // Actualizar el elemento HTML con el total de precios
-                this.actualizarTotalPrecio();
-    
+        // Actualizar el elemento HTML con el total de precios
+        this.actualizarTotalPrecio();
+
         this.selectedDateTime = null;
     }
 
-    actualizarTotalPrecio() {
-        const totalPrecioElement = document.getElementById('precio-dia');
-        if (totalPrecioElement) {
-            totalPrecioElement.textContent = `Total: $${this.totalPrecio.toFixed(2)}`;
-        }
-    }
-    
-    
 
     getElement() {
         return this.elCalendar;
