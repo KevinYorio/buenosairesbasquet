@@ -1,10 +1,11 @@
+// sequelizeconfig.js
 module.exports = {
-    development: {
-      username: 'root',
-      password: 'Velez1992',
-      database: 'buenosairesbasquet',
-      host: 'localhost',
+  development: {
+      username: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'Velez1992',
+      database: process.env.DB_NAME || 'buenosairesbasquet',
+      host: process.env.DB_HOST || 'localhost',
       dialect: 'mysql',
-    },
-    // Puedes agregar configuraciones adicionales para otros entornos como producción, testing, etc.
-  };
+  },
+  // Otras configuraciones...
+}
