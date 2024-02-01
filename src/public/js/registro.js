@@ -42,6 +42,14 @@ const registerUser = async () => {
       confirmPassword,
     };
 
+    const response = await fetch('/user/registro', {  // Cambiado el endpoint a '/user/registro'
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
     if (!response.ok) {
       throw new Error('Error al enviar el formulario al servidor.');
     }

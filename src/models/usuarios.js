@@ -1,5 +1,8 @@
+// usuario.js
+
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelizeConfig'); // Importa la instancia de Sequelize configurada
+const sequelize = require('../config/sequelizeConfig');
+
 const Usuario = sequelize.define('Usuario', {
   nombre: {
     type: DataTypes.STRING,
@@ -14,7 +17,7 @@ const Usuario = sequelize.define('Usuario', {
     allowNull: false,
     unique: true,
   },
-  contraseña: {
+  contraseña: { // Cambiar 'contraseña' a 'contrasena'
     type: DataTypes.STRING,
     allowNull: false,
   },

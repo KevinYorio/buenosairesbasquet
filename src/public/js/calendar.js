@@ -209,6 +209,7 @@ class Calendar {
             });
         });
     }
+
     calcularPrecio() {
         const diasSeleccionados = this.elCalendar.querySelectorAll('.grid__cell--selected').length;
     
@@ -216,106 +217,179 @@ class Calendar {
         const precios = {
             1: 4000,
             2: 8000,
-            3: 12000,
+            3: 10000,
             4: 10000,
-            5: 14000,
-            6: 18000,
-            7: 22000,
+            5: 20000,
+            6: 20000,
+            7: 20000,
             8: 20000,
-            9: 24000,
-            10: 28000,
-            11: 32000,
+            9: 27700,
+            10: 27700,
+            11: 27700,
             12: 27700,
-            13: 31700,
-            14: 35700,
-            15: 39700,
+            13: 34500,
+            14: 34500,
+            15: 34500,
             16: 34500,
-            17: 39000
+            17: 39000,
             // Agrega más valores según sea necesario
         };
     
         // Obtener el precio según la cantidad de días seleccionados
-        const precio = diasSeleccionados <= 16 ? precios[diasSeleccionados] : precios[17]; // Usar el precio por defecto si la cantidad es mayor a 16
+        let precio = 0;
+    
+        if (diasSeleccionados > 0 && diasSeleccionados <= 16) {
+            precio = precios[diasSeleccionados];
+        } else if (diasSeleccionados > 16) {
+            precio = precios[17];
+        }
     
         return precio;
     }
-
+    
+    
     actualizarTotalPrecio() {
         const precioLimite1 = 10000;
         const precioLimite2 = 18000;
         const precioLimite3 = 27700;
+        const precioLimite4 = 34500;
+        const precioLimite5 = 39000;
     
         // Obtener los botones de suscripción
         const suscripcionButton1 = document.querySelector('a[name="MP-payButton"][data-plan="1"]');
         const suscripcionButton2 = document.querySelector('a[name="MP-payButton"][data-plan="2"]');
         const suscripcionButton3 = document.querySelector('a[name="MP-payButton"][data-plan="3"]');
+        const suscripcionButton4 = document.querySelector('a[name="MP-payButton"][data-plan="4"]'); // Añadido para el cuarto botón
+        const suscripcionButton5 = document.querySelector('a[name="MP-payButton"][data-plan="5"]'); 
     
         // Obtener el elemento donde se muestra el precio total
         const precioTotalElement = document.getElementById('precio-dia');
     
-        if (this.totalPrecio >= precioLimite3) {
+        if (this.totalPrecio >= precioLimite5) {
+            // Mostrar solo el cuarto botón de suscripción
+            suscripcionButton1.style.display = 'none';
+            suscripcionButton2.style.display = 'none';
+            suscripcionButton3.style.display = 'none';
+            suscripcionButton4.style.display = 'none';
+            suscripcionButton5.style.display = 'inline';
+        } else if (this.totalPrecio >= precioLimite4) {
+            // Mostrar solo el cuarto botón de suscripción
+            suscripcionButton1.style.display = 'none';
+            suscripcionButton2.style.display = 'none';
+            suscripcionButton3.style.display = 'none';
+            suscripcionButton4.style.display = 'inline';
+            suscripcionButton5.style.display = 'none';
+        } else if (this.totalPrecio >= precioLimite3) {
             // Mostrar solo el tercer botón de suscripción
             suscripcionButton1.style.display = 'none';
             suscripcionButton2.style.display = 'none';
             suscripcionButton3.style.display = 'inline';
+            suscripcionButton4.style.display = 'none';
+            suscripcionButton5.style.display = 'none';
         } else if (this.totalPrecio >= precioLimite2) {
             // Mostrar solo el segundo botón de suscripción
             suscripcionButton1.style.display = 'none';
             suscripcionButton2.style.display = 'inline';
             suscripcionButton3.style.display = 'none';
+            suscripcionButton5.style.display = 'none';
         } else if (this.totalPrecio >= precioLimite1) {
             // Mostrar solo el primer botón de suscripción
             suscripcionButton1.style.display = 'inline';
             suscripcionButton2.style.display = 'none';
             suscripcionButton3.style.display = 'none';
+            suscripcionButton5.style.display = 'none';
         } else {
             // Ocultar todos los botones de suscripción
             suscripcionButton1.style.display = 'none';
             suscripcionButton2.style.display = 'none';
             suscripcionButton3.style.display = 'none';
+            suscripcionButton4.style.display = 'none';
+            suscripcionButton5.style.display = 'none';
         }
     
         // Actualizar el elemento con el precio total, asegurándose de que sea al menos 0
         precioTotalElement.textContent = `Precio: $${Math.max(0, this.totalPrecio).toFixed(2)}`;
     }
     
-    
-    
-    
-
     addToClassList() {
         // Obtener la lista de clases y el botón de reserva
         let classList = document.getElementById('class-list');
-        
+    
         // Obtener el precio asociado al día seleccionado
         const precio = this.calcularPrecio();
-        
+    
         // Asegurar que selectedTime esté definido
         const selectedTime = document.getElementById('horario').value || '';
-        
-        // Agregar el nuevo elemento de lista con la fecha, horario y precio seleccionados
-        let listItem = document.createElement('li');
-        listItem.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
-        
-        // Crear el botón de borrado para esta fecha
-        let deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Borrar';
-        deleteButton.addEventListener('click', () => {
-            this.borrarClase(listItem, precio);
+    
+        // Verificar si la fecha ya está en la lista con el mismo horario
+        const isAlreadySelected = Array.from(classList.children).some(item => {
+            const existingDateTime = moment(item.textContent.match(/Clase (.*?) -/)[1], 'LLL');
+            const existingTime = item.textContent.match(/- (.*?) -/)[1];
+            return existingDateTime.isSame(this.selectedDateTime, 'day') && existingTime === selectedTime;
         });
-        
-        // Agregar el botón de borrado al elemento de lista
-        listItem.appendChild(deleteButton);
-        
-        // Agregar el nuevo elemento a la lista
-        classList.appendChild(listItem);
+    
+        // Si la fecha ya está en la lista con el mismo horario, no hacer nada
+        if (isAlreadySelected) {
+            return;
+        }
+    
+        // Verificar si la fecha ya está en la lista con un horario diferente
+        const existingItemWithDate = Array.from(classList.children).find(item => {
+            const existingDateTime = moment(item.textContent.match(/Clase (.*?) -/)[1], 'LLL');
+            return existingDateTime.isSame(this.selectedDateTime, 'day');
+        });
+    
+        // Si la fecha ya está en la lista con un horario diferente, agregar una nueva entrada
+        if (existingItemWithDate) {
+            // Agregar el nuevo elemento de lista con la fecha, horario y precio seleccionados
+            let listItem = document.createElement('li');
+            listItem.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
+    
+            // Crear el botón de borrado para esta fecha
+            let deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Borrar';
+            deleteButton.addEventListener('click', () => {
+                this.borrarClase(listItem, precio);
+            });
+    
+            // Agregar el botón de borrado al elemento de lista
+            listItem.appendChild(deleteButton);
+    
+            // Agregar el nuevo elemento a la lista
+            classList.appendChild(listItem);
+        } else {
+            // Si no hay entradas con la misma fecha, simplemente actualizar el horario
+            if (existingItemWithDate) {
+                const existingItemPrecio = parseFloat(existingItemWithDate.textContent.match(/Precio: \$([0-9]+\.[0-9]+)/)[1]);
+                this.totalPrecio -= existingItemPrecio;
+                existingItemWithDate.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
+            } else {
+                // Crear el nuevo elemento de lista si no existe ninguno con la misma fecha
+                let listItem = document.createElement('li');
+                listItem.textContent = `Clase ${this.selectedDateTime.format('LLL')} - ${selectedTime} - Precio: $${precio.toFixed(2)}`;
+    
+                // Crear el botón de borrado para esta fecha
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Borrar';
+                deleteButton.addEventListener('click', () => {
+                    this.borrarClase(listItem, precio);
+                });
+    
+                // Agregar el botón de borrado al elemento de lista
+                listItem.appendChild(deleteButton);
+    
+                // Agregar el nuevo elemento a la lista
+                classList.appendChild(listItem);
+            }
+        }
     
         // Agregar el precio al total
         this.totalPrecio += precio;
-        
+    
         // Actualizar el elemento HTML con el total de precios
         this.actualizarTotalPrecio();
     }
+    
     
     
     borrarClase(item, precio) {
