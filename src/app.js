@@ -1,13 +1,11 @@
-require('dotenv').config(); // Esta línea debe ir al principio del archivo
-
 const express = require('express');
 const pool = require('./config/db');
 const ejs = require('ejs');
 const session = require('express-session');
 const { connectDatabase } = require('./config/db.js');
 const userRoutes = require('./routes/user.routes.js');
-const authController = require('./controllers/auth.controller');
-const { MercadoPagoConfig, Payment } = require('mercadopago');
+const authController = require('./controllers/auth.controller'); // Importa el controlador de autenticación
+//const { MercadoPagoConfig, Payment } = require('mercadopago'); esta linea la comente por que me tiro un error apenas inicie el proyecto
 
 const app = express();
 pool;

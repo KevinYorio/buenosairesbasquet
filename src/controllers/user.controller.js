@@ -1,7 +1,7 @@
 const userModel = require('../models/user.model');
 
 const createUser = async (req, res) => {
-  const { email, password, fullName, age } = req.body;
+  const { email, contrasena, fullName, age } = req.body;//TODO esta linea la modifique
   try {
     // Verificar si el email ya existe en la base de datos
     const existingUser = await userModel.getUserByEmail(email);
@@ -9,9 +9,8 @@ const createUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).send('El correo electrónico ya está registrado. Por favor, use otro.');
     }
-
     // Crear el nuevo usuario
-    await userModel.createUser({ email, contrasena: password, nombre_completo: fullName, edad: age });
+    userModel.createUser({ email, contrasena, nombre_completo: fullName, edad: age }); //TODO esta linea la modifique
 
     // Agregar log para indicar que la inserción fue exitosa
     console.log('Usuario creado exitosamente en la base de datos.');
@@ -23,6 +22,7 @@ const createUser = async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 };
+
 
 module.exports = {
   createUser,

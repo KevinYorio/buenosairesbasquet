@@ -1,5 +1,5 @@
 // Importar la librería 'mysql' para la conexión con la base de datos
-const mysql = require('mysql');
+const mysql = require('mysql2'); //TODO esta linea la modifique 
 // Importar la función 'promisify' de la librería 'util' para convertir callbacks en promesas
 const { promisify } = require('util');
 // Importar la configuración de la base de datos desde el archivo 'key'

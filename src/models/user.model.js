@@ -2,17 +2,18 @@
 
 const pool = require('../config/db');
 
-const createUser = async ({ email, contrasena, nombre_completo, edad }) => {
+const createUser = ({ email, contrasena, nombre_completo, edad }) => { //TODO esta linea la modifique
   try {
     const query = 'INSERT INTO Cliente (email, contrasena) VALUES (?, ?)';
-    await pool.query(query, [email, contrasena]);
+    pool.query(query, [email, contrasena]);
 
     // Obtén el ID del nuevo usuario insertado
-    const { insertId } = await pool.query('SELECT LAST_INSERT_ID() as id');
+    const { insertId } =  pool.query('SELECT LAST_INSERT_ID() as id');
 
     // Inserta los datos adicionales en la tabla DatosCliente
+    // ------AQUI TIENES UN ERROR DEBES CORREGIRLO -------
     const datosClienteQuery = 'INSERT INTO DatosCliente (cliente_id, nombre_completo, edad) VALUES (?, ?, ?)';
-    await pool.query(datosClienteQuery, [insertId, nombre_completo, edad]);
+    pool.query(datosClienteQuery, [insertId, nombre_completo, edad]);
 
     return { success: true };
   } catch (error) {
