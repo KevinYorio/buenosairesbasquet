@@ -93,7 +93,7 @@
       </header>
       <div class="container-center">
       <div class="registro-container">
-        <form id="signupForm" class="registro-form" method="post">
+        <form id="signupForm" class="registro-form" method="post" enctype="multipart/form-data" action="http://localhost:3000/user/registro">
           <h2>Registro</h2>
           <label for="fullName" class="registro-label">Nombre completo:</label>
           <input type="text" id="fullName" name="fullName" class="registro-input" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" required>
@@ -110,7 +110,7 @@
           <label for="confirmPassword" class="registro-label">Confirmar contraseña:</label>
           <input type="password" id="confirmPassword" name="confirmPassword" class="registro-input" required>
           <button type="button" class="registro-button" onclick="togglePassword()">Mostrar Contraseña</button>
-          <button type="submit" class="registro-button" src="./login.html">Registrarse</button>
+          <button type="submit">Registrarse</button>
         </form>
       </div>
       </div>
